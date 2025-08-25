@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2><i class="fas fa-envelope me-2"></i>Newsletter Signup</h2>
+                </div>
+                <div class="card-body p-4">
+                    {% if email %}
+                        <!-- Mensaje de confirmación cuando se recibe un email -->
+                        <div class="alert alert-success text-center">
+                            <i class="fas fa-check-circle fa-2x mb-3"></i>
+                            <h4>¡Gracias por suscribirte!</h4>
+                            <p class="mb-0">
+                                <strong>{{ email }}</strong> ha sido agregado a nuestra lista de correo.
+                            </p>
+                        </div>
+                        <div class="text-center">
+                            <a href="{% url 'home' %}" class="btn btn-primary">
+                                <i class="fas fa-home me-2"></i>Volver al inicio
+                            </a>
+                        </div>
+                    {% else %}
+                        <!-- Formulario de suscripción -->
+                        <div class="text-center mb-4">
+                            <i class="fas fa-paper-plane fa-3x text-primary mb-3"></i>
+                            <h3>Join our mailing list!</h3>
+                            <p class="text-muted">
+                                Mantente al día con las últimas noticias sobre películas, 
+                                reseñas y estrenos directamente en tu bandeja de entrada.
+                            </p>
+                        </div>
+
+                        <form method="post" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope me-1"></i>Enter your email:
+                                </label>
+                                <input type="email" 
+                                       class="form-control form-control-lg" 
+                                       name="email" 
+                                       id="email"
+                                       placeholder="tu.email@ejemplo.com" 
+                                       required>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa un email válido.
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        Acepto recibir emails informativos y promocionales.
+                                    </label>
+                                    <div class="invalid-feedback">
+                                        Debes aceptar los términos para continuar.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-paper-plane me-2"></i>Sign Up
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="mt-4 text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-shield-alt me-1"></i>
+                                Tu privacidad es importante para nosotros. 
+                                No compartimos tu información con terceros.
+                            </small>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Volver al catálogo
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Validación del formulario
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
+{% endblock %}
